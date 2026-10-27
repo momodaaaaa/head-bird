@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#182f2b"><meta name="description" content="撑起身体，让小鸟飞起来。用头部上下移动躲过障碍，挑战你的个人纪录。">
+<title>撑起小鸟 · 体感挑战</title><link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<header class="topbar"><a class="brand" href="./" aria-label="撑起小鸟首页"><span class="brand-icon">↗</span>撑起小鸟<span class="tag">体验版 05</span></a><span class="local-note"><i></i>画面本机处理</span></header>
+<main class="layout">
+<section class="intro"><p class="eyebrow">MOVE YOUR BODY. FIND YOUR RHYTHM.</p><h1>撑起来，<br>就飞起来<span>。</span></h1><p class="lead">把一次次起伏，变成一场小小的飞行。<br>用头部高度控制小鸟，看看你能飞多远。</p>
+<div class="record"><span class="record-icon">⚑</span><div><span class="record-label">我的体感最高纪录</span><strong id="bestIntro">00<span>分</span></strong></div><span class="record-caption">每一次穿越<br>都算数。</span></div>
+<ol class="steps"><li><b>01</b><div><strong>固定手机</strong><span>前置镜头对着你，保持脸部入镜。</span></div></li><li><b>02</b><div><strong>校准两个高度</strong><span>分别保持撑起、下降的位置。</span></div></li><li><b>03</b><div><strong>跟着身体飞</strong><span>穿过一组障碍 +1 分，碰到就结束。</span></div></li></ol>
+<p class="footnote">先用点头或身体起伏试试也可以。<br>每7个普通障碍，60%机会触发挑战波。</p></section>
+<section class="play-column" aria-label="游戏区域"><div class="stage-wrap"><div class="stage" id="stage">
+<video id="camera" autoplay playsinline muted aria-label="前置摄像头画面"></video><div class="camera-shade"></div><canvas id="gameCanvas" width="720" height="1280" aria-label="躲障碍游戏画面"></canvas>
+<div class="game-top"><span id="modeLabel" class="mode-label"><i></i>准备起飞</span><div class="game-controls"><button id="soundBtn" class="sound-button" aria-label="关闭声音" aria-pressed="true">声音：开</button><button id="pauseBtn" class="icon-button" aria-label="暂停游戏" hidden>Ⅱ</button></div></div>
+<div class="scoreboard" id="scoreboard" hidden><span id="score">0</span><small>本局得分</small><small class="pace" id="pace">轻松节奏</small></div>
+<div id="challengeBanner" class="challenge-banner" hidden role="status"><span id="challengeTag"></span><strong id="challengeTitle"></strong><small id="challengeDetail"></small></div>
+<div class="overlay" id="overlay"><div class="panel" id="panel"></div></div>
+<div id="eyeTarget" class="eye-target" hidden aria-hidden="true"></div><div class="tracking-bar" id="trackingBar" hidden><span id="trackingText">正在寻找你的脸…</span><span class="tracking-dot" id="trackingDot"></span></div>
+</div><div class="stage-bottom"><span><i></i>不录制 · 不上传画面</span><button id="exitBtn" hidden>关闭相机</button><span id="idleCaption">每次穿越障碍 +1</span></div></div>
+<div class="demo-controls" id="demoControls" hidden><button id="upBtn">↑ 往上飞</button><span>按住调整 · 也可拖动画面</span><button id="downBtn">↓ 往下飞</button></div>
+<p class="device-tip">建议用 Safari / Chrome 打开 · 手机固定后再开始<br><span id="storageTip">个人纪录仅保存在当前浏览器</span></p>
+</section>
+</main>
+<footer><span>一点运动，一点好玩。</span><span>HEAD-CONTROLLED FLIGHT / 2026</span></footer>
+<script type="module" src="./app.mjs"></script>
+</body></html>
