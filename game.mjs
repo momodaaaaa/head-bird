@@ -12,6 +12,8 @@ export function calibrate(highSamples,lowSamples) {
  return {high,low};
 }
 export const W=360,H=640,BIRD_X=88,RADIUS=14,PIPE_W=62;
+// 普通障碍按空间留距，提速后仍以同屏约两组为主。
+const NORMAL_SPACING=220;
 export function createGame(calibration=null) {
  const flight=calibration?{high:calibration.high,low:calibration.low}:null;
  return {score:0,passedCount:0,normalPassed:0,pacePoints:0,bonusPoints:0,phase:'normal',nextChallengeAt:7,challengeWins:0,challenge:null,warningUntil:0,lockedSpeed:null,lastReward:0,rewardUntil:0,over:false,time:0,nextSpawn:2.7,spawnCount:0,lastTarget:.5,lastPattern:null,patternRun:0,flight,obstacles:[],birdX:BIRD_X,birdY:320};
@@ -54,7 +56,7 @@ export function stepGame(g,dt,birdPosition,random=Math.random) {
   const center=flight.high*H+range*target;
   const gap=Math.max(56,Math.min(220,range*.4+RADIUS*2));
   g.obstacles.push({x:W+20,center,gap,passed:false});
-  g.nextSpawn+=.95;
+  g.nextSpawn+=NORMAL_SPACING/speedForScore(g.pacePoints);
  }
  if(g.phase==='challenge'&&g.challenge.spawned<g.challenge.total&&g.time>=g.nextSpawn){
   const flight=g.flight??{high:.18,low:.82},range=(flight.low-flight.high)*H;
@@ -85,7 +87,7 @@ export function stepGame(g,dt,birdPosition,random=Math.random) {
  }
  if(g.phase==='challenge'&&g.challenge.spawned===g.challenge.total&&g.challenge.cleared===g.challenge.total){
   g.challengeWins++;g.lastReward=challengeReward(g.challengeWins);g.bonusPoints+=g.lastReward;g.score+=g.lastReward;
-  g.rewardUntil=g.time+2.6;g.phase='normal';g.nextSpawn=g.time+.95;
+  g.rewardUntil=g.time+2.6;g.phase='normal';g.nextSpawn=g.time+NORMAL_SPACING/speedForScore(g.pacePoints);
   g.lastTarget=g.challenge.target;g.lastPattern=null;g.patternRun=0;
  }
  g.obstacles=g.obstacles.filter(p=>p.x+PIPE_W>-10);
