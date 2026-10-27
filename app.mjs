@@ -1,6 +1,6 @@
 import {calibrate,createGame,stepGame,W,H,BIRD_X,PIPE_W} from './game.mjs';
 import {createRecords} from './records.mjs';
-import {loadTracker,cameraError} from './camera.mjs';
+import {loadTracker,cameraError} from './camera.mjs?v=20261027-loading2';
 import {eyeCenter,toPreview} from './tracking.mjs';
 import {createGameAudio,transitionSounds} from './audio.mjs';
 const $=id=>document.getElementById(id);
@@ -10,7 +10,7 @@ const records=createRecords(storage);
 const sound=createGameAudio({storage,onChange:updateSoundButton});
 let mode='camera',state='idle',game=createGame(),calibration=null,tracker=null,stream=null;
 let generation=0,lastFrame=0,lastVideo=-1,lastInference=0,lastSeen=0,eyeY=null,head=.5,rawHead=.5,eyeSource=null,eyePoint=null;
-let calPhase='high',samples=[],highSamples=[],collecting=false,collectStarted=0,collectLast=0,countdownEnd=0,pauseReason='',loadingTimer;
+let calPhase='high',samples=[],highSamples=[],collecting=false,collectStarted=0,collectLast=0,countdownEnd=0,pauseReason='',loadingTimer,loadController;
 let held=0,pointer=null,demoTarget=.5,lastModeText='';
 const birdSvg='<svg class="hero-bird" viewBox="0 0 96 80" aria-hidden="true"><path d="M18 26H8V48H19" fill="#e4a749"/><path d="M22 17H64V24H75V57H62V65H27V58H18V28H22Z" fill="#e8c951" stroke="#182f2b" stroke-width="4"/><path d="M22 37H45V55H22Z" fill="#f6e9ac" stroke="#182f2b" stroke-width="4"/><path d="M53 17H70V40H53Z" fill="#fffdf0" stroke="#182f2b" stroke-width="4"/><path d="M64 23H69V34H64Z" fill="#182f2b"/><path d="M70 42H90V51H70Z" fill="#ed925b" stroke="#182f2b" stroke-width="4"/></svg>';
 function escape(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -38,7 +38,7 @@ function showHome(){
  bind('startCamera',startCamera);bind('demoStart',startDemo);refreshRecords();
 }
 function stopCamera(){
- generation++;clearTimeout(loadingTimer);collecting=false;
+ generation++;clearTimeout(loadingTimer);loadController?.abort();loadController=null;collecting=false;
  const active=stream;stream=null;if(active)active.getTracks().forEach(t=>t.stop());
  video.srcObject=null;video.style.display='none';
  if(tracker){tracker.close();tracker=null;}
@@ -55,12 +55,14 @@ async function startCamera(){
  sound.stop();unlockSound();
  stopCamera();mode='camera';state='loading';game=createGame();$('demoControls').hidden=true;$('scoreboard').hidden=true;$('pauseBtn').hidden=true;$('trackingBar').hidden=true;$('exitBtn').hidden=false;$('idleCaption').hidden=true;
  const id=generation;
+ loadController=new AbortController();
+ const loadSignal=loadController.signal;
  label('连接前置相机');
  panel('<div class="loading-mark"></div><h2>先和镜头打个招呼</h2><p id="loadText" role="status">请在浏览器提示中允许相机。<br>只使用视频，不使用麦克风。</p>'+button('cancelLoad','取消','text-button'));
  bind('cancelLoad',exit);
  if(!isSecureContext){errorPanel('需要安全的打开方式','请用 HTTPS 链接打开本页面。手机不能通过普通的局域网 HTTP 地址启动相机。');return;}
  if(!navigator.mediaDevices?.getUserMedia){errorPanel('这个浏览器无法开启相机','请在 Safari 或 Chrome 中打开本页面，再试一次。');return;}
- loadingTimer=setTimeout(()=>{if(generation===id&&state==='loading')errorPanel('连接等待时间较长','相机或识别资源还没有准备好。请检查网络，并确认已同意相机权限，再重试。');},60000);
+ loadingTimer=setTimeout(()=>{if(generation===id&&state==='loading')errorPanel('连接等待时间较长','相机或识别资源还没有准备好。请检查网络，并确认已同意相机权限，再重试。');},90000);
  let cameraReady=false;
  try {
   const incoming=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'user'},width:{ideal:640},height:{ideal:480},frameRate:{ideal:30,max:30}}});
@@ -70,11 +72,11 @@ async function startCamera(){
   video.style.display='block';cameraReady=true;
   stream.getVideoTracks()[0].addEventListener('ended',()=>{if(generation===id)errorPanel('相机连接中断','摄像头已停止，请重新开启并校准。');});
   $('loadText').textContent='正在加载本机识别资源，首次打开可能需要一些时间…';
-  const loaded=await loadTracker();
+  const loaded=await loadTracker({signal:loadSignal,onProgress:message=>{if(generation===id&&state==='loading'&&$('loadText'))$('loadText').textContent=message;}});
   if(generation!==id){loaded.close();return;}
   tracker=loaded;clearTimeout(loadingTimer);lastVideo=-1;lastInference=0;lastSeen=0;eyeY=null;
   $('trackingBar').hidden=false;beginCalibration();
- } catch(e){if(generation!==id)return;errorPanel(cameraReady?'识别资源没有准备好':'相机没有开启',cameraReady?'模型加载失败或设备暂不支持。请检查网络后重试；也可以先手动体验游戏。':cameraError(e));}
+ } catch(e){if(generation!==id)return;errorPanel(cameraReady?'识别资源没有准备好':'相机没有开启',cameraReady?(e.message||'识别资源启动失败，请切换网络或浏览器后重试。'):cameraError(e));}
 }
 function startDemo(){
  sound.stop();unlockSound();
