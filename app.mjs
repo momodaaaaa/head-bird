@@ -1,4 +1,4 @@
-import {calibrate,createGame,stepGame,W,H,BIRD_X,PIPE_W} from './game.mjs?v=20261027-density2';
+import {calibrate,createGame,stepGame,W,H,BIRD_X,PIPE_W} from './game.mjs?v=20261028-spacing250';
 import {createRecords} from './records.mjs';
 import {loadTracker,cameraError} from './camera.mjs?v=20261027-loading2';
 import {eyeCenter,toPreview} from './tracking.mjs';

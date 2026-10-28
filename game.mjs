@@ -13,7 +13,7 @@ export function calibrate(highSamples,lowSamples) {
 }
 export const W=360,H=640,BIRD_X=88,RADIUS=14,PIPE_W=62;
 // 普通障碍按空间留距，提速后仍以同屏约两组为主。
-const NORMAL_SPACING=220;
+const NORMAL_SPACING=250;
 export function createGame(calibration=null) {
  const flight=calibration?{high:calibration.high,low:calibration.low}:null;
  return {score:0,passedCount:0,normalPassed:0,pacePoints:0,bonusPoints:0,phase:'normal',nextChallengeAt:7,challengeWins:0,challenge:null,warningUntil:0,lockedSpeed:null,lastReward:0,rewardUntil:0,over:false,time:0,nextSpawn:2.7,spawnCount:0,lastTarget:.5,lastPattern:null,patternRun:0,flight,obstacles:[],birdX:BIRD_X,birdY:320};
