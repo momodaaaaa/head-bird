@@ -63,7 +63,7 @@ export function stepGame(g,dt,birdPosition,random=Math.random) {
   const c=g.challenge;
   c.target=c.spawned===0?.35+random()*.30:(c.target<.5?.74+random()*.08:.18+random()*.08);
   g.obstacles.push({x:W+20,center:flight.high*H+range*c.target,gap:Math.max(48,Math.min(220,range*.4+RADIUS*2)),passed:false,challenge:true});
-  c.spawned++;g.spawnCount++;g.nextSpawn+=.75;
+  c.spawned++;g.spawnCount++;g.nextSpawn+=.95;
  }
  const speed=currentSpeed(g);
  for(const p of g.obstacles) p.x-=speed*dt;
@@ -97,7 +97,7 @@ export function stepGame(g,dt,birdPosition,random=Math.random) {
 // 每六分温和提速，三十分后保持上限。
 export function speedForScore(score){return 163.28125*(1+Math.min(5,Math.max(0,Math.floor(score/6)))*.05);}
 
-// 挑战期间锁定原档位，只临时增加20%；奖励和挑战障碍不会推进普通加速。
-export function currentSpeed(g){return g.phase==='challenge'?g.lockedSpeed*1.2:g.phase==='warning'?g.lockedSpeed:speedForScore(g.pacePoints);}
+// 挑战期间锁定原档位，只临时增加10%；奖励和挑战障碍不会推进普通加速。
+export function currentSpeed(g){return g.phase==='challenge'?g.lockedSpeed*1.1:g.phase==='warning'?g.lockedSpeed:speedForScore(g.pacePoints);}
 
 export function challengeReward(successNumber){return [3,5,8,10][Math.min(3,Math.max(0,successNumber-1))];}

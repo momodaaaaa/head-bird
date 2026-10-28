@@ -1,4 +1,4 @@
-import {calibrate,createGame,stepGame,W,H,BIRD_X,PIPE_W} from './game.mjs?v=20261028-spacing250';
+import {calibrate,createGame,stepGame,W,H,BIRD_X,PIPE_W} from './game.mjs?v=20261028-gentle-challenge';
 import {createRecords} from './records.mjs';
 import {loadTracker,cameraError} from './camera.mjs?v=20261027-loading2';
 import {eyeCenter,toPreview} from './tracking.mjs';
@@ -208,14 +208,14 @@ function updateChallengeUI(){
  if(warning){
   const seconds=Math.max(0,Math.ceil(game.warningUntil-game.time));
   $('challengeTag').textContent='⚡ 挑战即将来临';$('challengeTitle').textContent='准备迎来一波阻碍';
-  $('challengeDetail').textContent=(seconds?seconds+' 秒后准备出发':'等待场上障碍通过')+' · 连续 '+game.challenge.total+' 个 · 临时提速 20%';
+  $('challengeDetail').textContent=(seconds?seconds+' 秒后准备出发':'等待场上障碍通过')+' · 连续 '+game.challenge.total+' 个 · 临时提速 10%';
  }else if(reward){
   $('challengeTag').textContent='第 '+game.challengeWins+' 次挑战成功';$('challengeTitle').textContent='挑战通过！额外 +'+game.lastReward+' 分';
   $('challengeDetail').textContent='恢复原来的音乐和速度，继续飞行';
  }
  if(visible){
   if(game.phase==='challenge'){
-   label('⚡ 挑战波 · 第 '+(game.challengeWins+1)+' 次');$('pace').textContent='已通过 '+game.challenge.cleared+' / '+game.challenge.total+' · 临时 +20%';
+   label('⚡ 挑战波 · 第 '+(game.challengeWins+1)+' 次');$('pace').textContent='已通过 '+game.challenge.cleared+' / '+game.challenge.total+' · 临时 +10%';
   }else if(warning){label('⚡ 准备挑战');$('pace').textContent='挑战预告 · 当前速度已锁定';}
   else {
    label(mode==='demo'?'手动试玩 · 独立纪录':'体感模式 · 眼睛控制');
