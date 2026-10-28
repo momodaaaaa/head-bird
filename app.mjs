@@ -204,6 +204,7 @@ function updateChallengeUI(){
  $('stage').classList.toggle('challenge-active',visible&&game.phase==='challenge');
  $('stage').classList.toggle('challenge-warning',visible&&game.phase==='warning');
  const warning=visible&&game.phase==='warning',reward=visible&&game.phase==='normal'&&game.rewardUntil>game.time;
+ $('stage').classList.toggle('challenge-notice',warning||reward);
  $('challengeBanner').hidden=!(warning||reward);
  if(warning){
   const seconds=Math.max(0,Math.ceil(game.warningUntil-game.time));

@@ -12,10 +12,10 @@
 .challenge-banner{position:absolute;top:176px;left:16px;right:16px;z-index:3;padding:12px 10px;border:1px solid #f4d08a80;border-radius:14px;background:#283b2bef;box-shadow:0 8px 25px #0d211c33;text-align:center;pointer-events:none;color:#fff5d3}.challenge-banner span{display:block;font-size:9px;letter-spacing:.08em;color:#e9bc6d}.challenge-banner strong{display:block;font-size:17px;margin:6px 0;line-height:1.4}.challenge-banner small{display:block;font-size:9px;line-height:1.7;color:#e2ddbb}.stage.challenge-active::after,.stage.challenge-warning::after{content:"";position:absolute;inset:0;z-index:4;border:2px solid #edbc63;border-radius:inherit;pointer-events:none}.stage.challenge-warning::after{border-color:#edbc6380}.result-stats{flex-wrap:wrap;row-gap:8px}
 @media(max-width:760px){.challenge-banner{top:160px;padding:10px 8px}.challenge-banner strong{font-size:15px}.challenge-banner small{font-size:8px}}
 
-/* 预告放在顶部控制栏下方，分数留在左侧，避开中间操作区域。 */
-.stage.challenge-warning .challenge-banner{top:64px;left:88px;right:14px;padding:8px;border-radius:11px}
-.stage.challenge-warning .challenge-banner strong{font-size:15px;line-height:1.3;margin:4px 0}
-.stage.challenge-warning .scoreboard{top:68px;left:12px;right:auto;width:62px}
-.stage.challenge-warning .scoreboard span{font-size:36px}
-.stage.challenge-warning .scoreboard small.pace{display:none}
-@media(max-width:760px){.stage.challenge-warning .challenge-banner{top:54px;left:72px;right:10px;padding:7px 6px}.stage.challenge-warning .challenge-banner strong{font-size:13px}.stage.challenge-warning .scoreboard{top:60px;left:8px;width:54px}.stage.challenge-warning .scoreboard span{font-size:32px}}
+/* 预告与奖励提示放在顶部控制栏下方，分数留在左侧，避开中间操作区域。 */
+.stage.challenge-notice .challenge-banner{top:64px;left:88px;right:14px;padding:8px;border-radius:11px}
+.stage.challenge-notice .challenge-banner strong{font-size:15px;line-height:1.3;margin:4px 0}
+.stage.challenge-notice .scoreboard{top:68px;left:12px;right:auto;width:62px}
+.stage.challenge-notice .scoreboard span{font-size:36px}
+.stage.challenge-notice .scoreboard small.pace{display:none}
+@media(max-width:760px){.stage.challenge-notice .challenge-banner{top:54px;left:72px;right:10px;padding:7px 6px}.stage.challenge-notice .challenge-banner strong{font-size:13px}.stage.challenge-notice .scoreboard{top:60px;left:8px;width:54px}.stage.challenge-notice .scoreboard span{font-size:32px}}
