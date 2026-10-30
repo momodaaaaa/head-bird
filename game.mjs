@@ -14,8 +14,9 @@ export function calibrate(highSamples,lowSamples) {
 export const W=360,H=640,BIRD_X=88,RADIUS=14,PIPE_W=62;
 // 普通障碍按空间留距，提速后仍以同屏约两组为主。
 const NORMAL_SPACING=250;
+export const DEFAULT_FLIGHT=Object.freeze({high:.25,low:.75});
 export function createGame(calibration=null) {
- const flight=calibration?{high:calibration.high,low:calibration.low}:null;
+ const flight=calibration?{high:calibration.high,low:calibration.low}:{...DEFAULT_FLIGHT};
  return {score:0,passedCount:0,normalPassed:0,pacePoints:0,bonusPoints:0,phase:'normal',nextChallengeAt:7,challengeWins:0,challenge:null,warningUntil:0,lockedSpeed:null,lastReward:0,rewardUntil:0,over:false,time:0,nextSpawn:2.7,spawnCount:0,lastTarget:.5,lastPattern:null,patternRun:0,flight,obstacles:[],birdX:BIRD_X,birdY:320};
 }
 function hitsPipe(x,y,r,p) {
@@ -48,7 +49,7 @@ export function stepGame(g,dt,birdPosition,random=Math.random) {
   if(pattern==='large')target=g.lastTarget<.5?.90+random()*.08:.02+random()*.08;
   else {
    const direction=g.lastTarget<=.24?1:g.lastTarget>=.76?-1:(random()<.5?-1:1);
-   target=g.lastTarget+direction*(.08+random()*.14);
+   target=g.lastTarget+direction*(.22+random()*.12);
   }
   target=Math.max(.02,Math.min(.98,target));
   g.patternRun=pattern===g.lastPattern?g.patternRun+1:1;
