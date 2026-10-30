@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#182f2b"><meta name="description" content="撑起身体，让小鸟飞起来。用头部上下移动躲过障碍，挑战你的个人纪录。">
-<title>撑起小鸟 · 体感挑战</title><link rel="stylesheet" href="./style.css?v=20261028-top-notices">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="撑起小鸟"><link rel="manifest" href="./manifest.webmanifest"><link rel="apple-touch-icon" href="./icon-180.png">
+<title>撑起小鸟 · 体感挑战</title><link rel="stylesheet" href="./style.css?v=20261030-fullscreen">
 </head>
 <body>
 <header class="topbar"><a class="brand" href="./" aria-label="撑起小鸟首页"><span class="brand-icon">↗</span>撑起小鸟<span class="tag">体验版 06</span></a><span class="local-note"><i></i>画面本机处理</span></header>
@@ -14,16 +15,18 @@
 <p class="footnote">先用点头或身体起伏试试也可以。<br>每7个普通障碍，80%机会触发挑战波。</p></section>
 <section class="play-column" aria-label="游戏区域"><div class="stage-wrap"><div class="stage" id="stage">
 <video id="camera" autoplay playsinline muted aria-label="前置摄像头画面"></video><div class="camera-shade"></div><canvas id="gameCanvas" width="720" height="1280" aria-label="躲障碍游戏画面"></canvas>
-<div class="game-top"><span id="modeLabel" class="mode-label"><i></i>准备起飞</span><div class="game-controls"><button id="soundBtn" class="sound-button" aria-label="关闭声音" aria-pressed="true">声音：开</button><button id="pauseBtn" class="icon-button" aria-label="暂停游戏" hidden>Ⅱ</button></div></div>
+<div class="game-top"><span id="modeLabel" class="mode-label"><i></i>准备起飞</span><div class="game-controls"><button id="fullscreenBtn" class="icon-button" aria-label="全屏游戏" aria-pressed="false" title="全屏游戏">全屏</button><button id="soundBtn" class="sound-button" aria-label="关闭声音" aria-pressed="true">声音：开</button><button id="pauseBtn" class="icon-button" aria-label="暂停游戏" hidden>Ⅱ</button></div></div>
 <div class="scoreboard" id="scoreboard" hidden><span id="score">0</span><small>本局得分</small><small class="pace" id="pace">轻松节奏</small></div>
 <div id="challengeBanner" class="challenge-banner" hidden role="status"><span id="challengeTag"></span><strong id="challengeTitle"></strong><small id="challengeDetail"></small></div>
 <div class="overlay" id="overlay"><div class="panel" id="panel"></div></div>
 <div id="eyeTarget" class="eye-target" hidden aria-hidden="true"></div><div class="tracking-bar" id="trackingBar" hidden><span id="trackingText">正在寻找你的脸…</span><span class="tracking-dot" id="trackingDot"></span></div>
 </div><div class="stage-bottom"><span><i></i>不录制 · 不上传画面</span><button id="exitBtn" hidden>关闭相机</button><span id="idleCaption">每次穿越障碍 +1</span></div></div>
 <div class="demo-controls" id="demoControls" hidden><button id="upBtn">↑ 往上飞</button><span>按住调整 · 也可拖动画面</span><button id="downBtn">↓ 往下飞</button></div>
-<p class="device-tip">建议用 Safari / Chrome 打开 · 手机固定后再开始<br><span id="storageTip">个人纪录仅保存在当前浏览器</span></p>
+<p class="device-tip">建议用 Safari / Chrome 打开 · 手机固定后再开始<br><span id="storageTip">个人纪录仅保存在当前浏览器</span><br><button id="fullscreenGuide" class="guide-button">iPhone 全屏打开方法</button></p>
 </section>
 </main>
 <footer><span>一点运动，一点好玩。</span><span>HEAD-CONTROLLED FLIGHT / 2026</span></footer>
+<dialog id="fullscreenHelp" class="fullscreen-help"><h2>手机全屏打开</h2><p>全屏按钮会优先尝试浏览器全屏；不支持时，会铺满网页可视区域，地址栏仍由浏览器控制。</p><p>iPhone 请用 Safari 打开，点“分享”→“添加到主屏幕”。若有“作为 Web App 打开”开关，请开启，再从桌面图标进入。</p><button id="fullscreenHelpClose" class="primary">知道了，继续</button></dialog>
+<script type="module" src="./display.mjs?v=20261030-fullscreen"></script>
 <script type="module" src="./app.mjs?v=20261030-handsfree"></script>
 </body></html>
